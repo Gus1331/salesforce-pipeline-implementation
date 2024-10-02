@@ -1,5 +1,5 @@
 public class ProcessController {
-    public static Integer process(Integer num1, Integer num2){
-        return ProcessService.process(num1, num2);
+    public static Integer process(Integer nm1, Integer nm2){
+        return ProcessService.process(nm1, nm2);
     }
 }
