@@ -1,0 +1,43 @@
+name: Testes do salesforce (DEV para QA)
+
+on:
+  push:
+    branches:
+      - develop  
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup Salesforce CLI #INSTALA O SALESFORCE CLI E O ADICIONA NO PATH
+      run: |
+        curl -sSL https://developer.salesforce.com/media/salesforce-cli/sfdx-cli.tar.gz | tar xz -C /usr/local/bin
+        echo 'export PATH=/usr/local/bin/sfdx:$PATH' >> $GITHUB_ENV
+        sfdx update
+        sudo apt-get install jq
+
+    - name: Autenticação do Salesforce
+      env: # DEFINE AS VARIAVEIS DE AMBIENTE DO PLAYGROUND
+        SFDX_USERNAME: ${{ secrets.SFDX_USERNAME_DEV }}
+        SFDX_PASSWORD: ${{ secrets.SFDX_PASSWORD }}
+        SFDX_SECURITY_TOKEN: ${{ secrets.SFDX_SECURITY_TOKEN_DEV }}
+      run: |
+        echo $SFDX_PASSWORD$SFDX_SECURITY_TOKEN | sfdx force:auth:password:store -u $SFDX_USERNAME
+
+    - name: Validação da cobertura de código
+      run: |
+        pass_rate=$(sfdx force:apex:test:run --resultformat json --wait 10 --testlevel RunLocalTests --codecoverage -u prod | jq '.[0]') 
+        if [ "$pass_rate" -gt 75 ]; then
+          echo "Cobertura de código ok: $pass_rate%"
+        else 
+          echo "Cobertura de código insuficiente: $pass_rate%"
+          exit 1
+        fi
+
+    - name: Deploy pra QA
+      run: |
+        echo "Realizando Deploy para ambiente de homologação..."
