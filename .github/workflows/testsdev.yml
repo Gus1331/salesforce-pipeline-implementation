@@ -1,9 +1,10 @@
 name: Testes do salesforce (DEV para QA)
 
 on:
-  push:
+  pull_request:
+    types: [opened, reopened]
     branches:
-      - develop  
+      - 'develop'
 
 jobs:
   run-tests:
