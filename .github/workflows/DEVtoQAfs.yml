@@ -3,7 +3,8 @@ name: Validação de testes do salesforce
 on:
   push:
     branches:
-      - develop
+      - 'develop'
+      - 'qa'
 
 jobs:
   run-tests:
