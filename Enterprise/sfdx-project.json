@@ -1,0 +1,12 @@
+{
+  "packageDirectories": [
+    {
+      "path": "force-app",
+      "default": true
+    }
+  ],
+  "name": "Enterprise",
+  "namespace": "",
+  "sfdcLoginUrl": "https://resourceful-moose-p539mk-dev-ed.trailblaze.my.salesforce.com/",
+  "sourceApiVersion": "59.0"
+}
