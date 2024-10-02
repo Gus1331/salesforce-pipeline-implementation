@@ -1,7 +1,8 @@
 name: Validação de testes do salesforce
 
 on:
-  push:
+  pull_request:
+    types: [open, reopen]
     branches:
       - 'develop'
       - 'qa'
