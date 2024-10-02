@@ -1,8 +1,8 @@
-name: Testes do salesforce (DEV para QA)
+name: Validação de testes do salesforce
 
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [open, reopen]
     branches:
       - 'qa'
 
@@ -12,17 +12,18 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2-
 
-    - name: Setup Salesforce CLI #INSTALA O SALESFORCE CLI E O ADICIONA NO PATH
+    - name: Setup Salesforce CLI
       run: |
-        npm install --global sfdx-cli
+        curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+        sudo apt-get install -y nodejs
+        npm install @salesforce/cli --global
+        echo 'export PATH=/usr/local/bin/sfdx:$PATH' >> $GITHUB_ENV
         sfdx update
-        sudo apt-get install -y jq
-        sudo apt-get install jq
 
     - name: Autenticação do Salesforce
-      env: # DEFINE AS VARIAVEIS DE AMBIENTE DO PLAYGROUND
+      env: 
         SFDX_USERNAME: ${{ secrets.SFDX_USERNAME_DEV }}
         SFDX_PASSWORD: ${{ secrets.SFDX_PASSWORD }}
         SFDX_SECURITY_TOKEN: ${{ secrets.SFDX_SECURITY_TOKEN_DEV }}
@@ -31,14 +32,17 @@ jobs:
 
     - name: Validação da cobertura de código
       run: |
-        pass_rate=$(sfdx force:apex:test:run --resultformat json --wait 10 --testlevel RunLocalTests --codecoverage -u prod | jq '.[0]') 
+        sudo apt-get install jq
+        pass_rate=$(sfdx force:apex:test:run --resultformat json --wait 10 --testlevel RunLocalTests --codecoverage -u prod | jq '.[0].passRate') 
+        echo "Taxa de aprovação: $pass_rate%"
+        
         if [ "$pass_rate" -gt 75 ]; then
           echo "Cobertura de código ok: $pass_rate%"
         else 
           echo "Cobertura de código insuficiente: $pass_rate%"
-          exit 1
+          exit 1 
         fi
 
-    - name: Deploy pra QA
+    - name: Deploy em QA
       run: |
-        echo "Realizando Deploy para ambiente de homologação..."
+        echo"..."
