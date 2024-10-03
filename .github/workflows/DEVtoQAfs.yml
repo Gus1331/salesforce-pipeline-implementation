@@ -2,7 +2,7 @@ name: Validação de testes do salesforce
 
 on:
   pull_request:
-    types: [open, reopen]
+    types: [opened, reopen]
     branches:
       - 'qa'
 
@@ -14,13 +14,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2-
 
-    - name: Setup Salesforce CLI
+    - name: Setup Salesforce CLI #INSTALA O SALESFORCE CLI E O ADICIONA NO PATH
       run: |
-        curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-        sudo apt-get install -y nodejs
-        npm install @salesforce/cli --global
-        echo 'export PATH=/usr/local/bin/sfdx:$PATH' >> $GITHUB_ENV
+        npm install --global sfdx-cli
         sfdx update
+        sudo apt-get install -y jq
+        sudo apt-get install jq
 
     - name: Autenticação do Salesforce
       env: 
