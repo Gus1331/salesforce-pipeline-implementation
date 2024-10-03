@@ -23,5 +23,6 @@ jobs:
     if: github.event.pull_requested.merged == false
     runs-on: ubuntu-latest
     steps:
-    # run: |
+      run: |
+      echo "Ok!"
     # Realizar procedimento caso falha....
