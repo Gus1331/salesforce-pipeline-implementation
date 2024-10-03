@@ -1,0 +1,20 @@
+name: Cobertura de Testes (DEV para QA)
+
+on:
+  pull_request:
+    types: [opened, reopened]
+    branches:
+      - 'qa'
+
+jobs:
+  validade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Validade on Production
+        uses: jawills/sf-deploy@v1.0
+        with:
+          SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL_DEV }}
+          DRY_RUN: true
+    
+    

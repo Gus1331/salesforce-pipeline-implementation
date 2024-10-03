@@ -16,11 +16,14 @@ jobs:
 
     - name: Setup Salesforce CLI #INSTALA O SALESFORCE CLI E O ADICIONA NO PATH
       run: |
-        npm install --global sfdx-cli
-        sfdx update
+        npm install --global @salesforce/cli
+        sf update
         sudo apt-get install -y jq
         sudo apt-get install jq
         sudo apt upgrade
+
+      
+        # npm install --global sfdx-cli
 
     - name: Autenticação do Salesforce
       env: # DEFINE AS VARIAVEIS DE AMBIENTE DO PLAYGROUND
@@ -28,13 +31,15 @@ jobs:
         CONSUMER_SECRET_DEV: ${{ secrets.CONSUMER_SECRET_DEV }}
         #SFDX_SECURITY_TOKEN: ${{ secrets.SFDX_SECURITY_TOKEN_DEV }}
       run: |
-        sf org login --client-id $CONSUMER_KEY_DEV --client-secret $CONSUMER_SECRET_DEV --instance-url https://curious-otter-r1g72t-dev-ed.trailblaze.my.salesforce.com/
+        sf --version
+        curl -o private-key.pem  https://raw.githubusercontent.com/Gus1331/salesforce-pipeline-implementation/refs/heads/main/build/private-key.pem?token=GHSAT0AAAAAACVE5ZGGBEITWWHNF6KPYWQIZX6XLSA
+        sfdx force:auth:jwt:grant --clientid #COSTUMER_SECRET_DEV --jwtkeyfile ./private-key.pem --setalias prod --instanceurl https://curious-otter-r1g72t-dev-ed.trailblaze.my.salesforce.com/
+        sfdx force:org:list
+    
+        #sf org login --client-id $CONSUMER_KEY_DEV --client-secret $CONSUMER_SECRET_DEV --instance-url https://curious-otter-r1g72t-dev-ed.trailblaze.my.salesforce.com/
         sfdx force:org:list
         
-      
         # sfdx org login device --instance-url https://curious-otter-r1g72t-dev-ed.trailblaze.my.salesforce.com/
-        # echo $SFDX_PASSWORD$SFDX_SECURITY_TOKEN | sfdx force:auth:password:store -u $SFDX_USERNAME
-
     - name: Validação da cobertura de código
       run: |
         pass_rate=$(sfdx force:apex:test:run --resultformat json --wait 10 --testlevel RunLocalTests --codecoverage -u prod | jq '[.result.summary.passRate]')
