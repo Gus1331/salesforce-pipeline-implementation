@@ -22,12 +22,14 @@ jobs:
         sudo apt-get install jq
 
     - name: Autenticação do Salesforce
-      env: # DEFINE AS VARIAVEIS DE AMBIENTE DO PLAYGROUND
-        SFDX_USERNAME: ${{ secrets.SFDX_USERNAME_DEV }}
-        SFDX_PASSWORD: ${{ secrets.SFDX_PASSWORD }}
-        SFDX_SECURITY_TOKEN: ${{ secrets.SFDX_SECURITY_TOKEN_DEV }}
+      #env: # DEFINE AS VARIAVEIS DE AMBIENTE DO PLAYGROUND
+        #SFDX_USERNAME: ${{ secrets.SFDX_USERNAME_DEV }}
+        #SFDX_PASSWORD: ${{ secrets.SFDX_PASSWORD }}
+        #SFDX_SECURITY_TOKEN: ${{ secrets.SFDX_SECURITY_TOKEN_DEV }}
       run: |
-        echo $SFDX_PASSWORD$SFDX_SECURITY_TOKEN | sfdx force:auth:password:store -u $SFDX_USERNAME
+        sf org login device --instance-url https://curious-otter-r1g72t-dev-ed.trailblaze.my.salesforce.com/
+      
+        # echo $SFDX_PASSWORD$SFDX_SECURITY_TOKEN | sfdx force:auth:password:store -u $SFDX_USERNAME
 
     - name: Validação da cobertura de código
       run: |
