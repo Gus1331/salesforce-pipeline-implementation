@@ -27,7 +27,7 @@ jobs:
         #SFDX_PASSWORD: ${{ secrets.SFDX_PASSWORD }}
         #SFDX_SECURITY_TOKEN: ${{ secrets.SFDX_SECURITY_TOKEN_DEV }}
       run: |
-        sf org login device --instance-url https://curious-otter-r1g72t-dev-ed.trailblaze.my.salesforce.com/
+        sfdx org login device --instance-url https://curious-otter-r1g72t-dev-ed.trailblaze.my.salesforce.com/
       
         # echo $SFDX_PASSWORD$SFDX_SECURITY_TOKEN | sfdx force:auth:password:store -u $SFDX_USERNAME
 
