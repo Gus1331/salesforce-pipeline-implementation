@@ -23,13 +23,15 @@ jobs:
         sudo apt upgrade
 
     - name: Autenticação do Salesforce
-      #env: # DEFINE AS VARIAVEIS DE AMBIENTE DO PLAYGROUND
-        #SFDX_USERNAME: ${{ secrets.SFDX_USERNAME_DEV }}
-        #SFDX_PASSWORD: ${{ secrets.SFDX_PASSWORD }}
+      env: # DEFINE AS VARIAVEIS DE AMBIENTE DO PLAYGROUND
+        CONSUMER_KEY_DEV: ${{ secrets.CONSUMER_KEY_DEV }}
+        CONSUMER_SECRET_DEV: ${{ secrets.CONSUMER_SECRET_DEV }}
         #SFDX_SECURITY_TOKEN: ${{ secrets.SFDX_SECURITY_TOKEN_DEV }}
       run: |
-        sfdx org login device --instance-url https://curious-otter-r1g72t-dev-ed.trailblaze.my.salesforce.com/
+        sfdx org login --client-id $CONSUMER_KEY_DEV --client-secret $CONSUMER_SECRET_DEV --instance-url https://curious-otter-r1g72t-dev-ed.trailblaze.my.salesforce.com/
+        
       
+        # sfdx org login device --instance-url https://curious-otter-r1g72t-dev-ed.trailblaze.my.salesforce.com/
         # echo $SFDX_PASSWORD$SFDX_SECURITY_TOKEN | sfdx force:auth:password:store -u $SFDX_USERNAME
 
     - name: Validação da cobertura de código
