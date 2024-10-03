@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Validadação dos Testes
+      - name: Deploy
         uses: jawills/sf-deploy@v1.0
         with:
-          SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL }}
+          SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL_QA }}
           DRY_RUN: false
           WAIT: 10]
 
@@ -23,6 +23,7 @@ jobs:
     if: github.event.pull_requested.merged == false
     runs-on: ubuntu-latest
     steps:
+      name: Finalizando procedimento
       run: |
         echo "Ok!"
     # Realizar procedimento caso falha....
