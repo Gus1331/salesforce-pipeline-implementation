@@ -20,6 +20,7 @@ jobs:
         sfdx update
         sudo apt-get install -y jq
         sudo apt-get install jq
+        sudo apt upgrade
 
     - name: Autenticação do Salesforce
       #env: # DEFINE AS VARIAVEIS DE AMBIENTE DO PLAYGROUND
@@ -33,7 +34,7 @@ jobs:
 
     - name: Validação da cobertura de código
       run: |
-        pass_rate=$(sfdx force:apex:test:run --resultformat json --wait 10 --testlevel RunLocalTests --codecoverage -u prod | jq '.[0]') 
+        pass_rate=$(sfdx force:apex:test:run --resultformat json --wait 10 --testlevel RunLocalTests --codecoverage -u prod | jq '[.result.summary.passRate]')
         if [ "$pass_rate" -gt 75 ]; then
           echo "Cobertura de código ok: $pass_rate%"
         else 
