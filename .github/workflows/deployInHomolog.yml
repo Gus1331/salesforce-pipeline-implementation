@@ -8,7 +8,7 @@ on:
 
 jobs:
   merge_job:
-    if: github.event.pull_requested.merged == true
+    # if: github.event.pull_requested.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
