@@ -1,0 +1,27 @@
+name: Deploy de mudanças (DEV para QA)
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - 'homolog'
+
+jobs:
+  merge_job:
+    if: github.event.pull_requested.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Validadação dos Testes
+        uses: jawills/sf-deploy@v1.0
+        with:
+          SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL }}
+          DRY_RUN: false
+          WAIT: 10]
+
+  close_job:
+    if: github.event.pull_requested.merged == false
+    runs-on: ubuntu-latest
+    steps:
+    # run: |
+    # Realizar procedimento caso falha....
