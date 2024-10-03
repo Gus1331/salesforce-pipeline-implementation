@@ -15,7 +15,7 @@ jobs:
       - name: Validadação dos Testes
         uses: jawills/sf-deploy@v1.0
         with:
-          SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL_QA }}
+          SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL }}
           DRY_RUN: false
           WAIT: 10]
 
