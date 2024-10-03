@@ -28,7 +28,8 @@ jobs:
         CONSUMER_SECRET_DEV: ${{ secrets.CONSUMER_SECRET_DEV }}
         #SFDX_SECURITY_TOKEN: ${{ secrets.SFDX_SECURITY_TOKEN_DEV }}
       run: |
-        sfdx org login --client-id $CONSUMER_KEY_DEV --client-secret $CONSUMER_SECRET_DEV --instance-url https://curious-otter-r1g72t-dev-ed.trailblaze.my.salesforce.com/
+        sf org login --client-id $CONSUMER_KEY_DEV --client-secret $CONSUMER_SECRET_DEV --instance-url https://curious-otter-r1g72t-dev-ed.trailblaze.my.salesforce.com/
+        sfdx force:org:list
         
       
         # sfdx org login device --instance-url https://curious-otter-r1g72t-dev-ed.trailblaze.my.salesforce.com/
