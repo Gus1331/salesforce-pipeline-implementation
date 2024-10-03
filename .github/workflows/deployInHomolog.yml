@@ -19,11 +19,11 @@ jobs:
           DRY_RUN: false
           WAIT: 10]
 
-  close_job:
-    if: github.event.pull_requested.merged == false
-    runs-on: ubuntu-latest
-    steps:
-      name: Finalizando procedimento
-      run: |
-        echo "Ok!"
-    # Realizar procedimento caso falha....
+  # close_job:
+  #   if: github.event.pull_requested.merged == false
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     name: Finalizando procedimento
+  #     run: |
+  #       echo "Ok!"
+  #   # Realizar procedimento caso falha....
