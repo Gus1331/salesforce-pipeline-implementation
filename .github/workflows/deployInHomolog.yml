@@ -8,16 +8,25 @@ on:
 
 jobs:
   merge_job:
-    # if: github.event.pull_requested.merged == true
+    # if: github.event.pull_requested.merged == true FALHA
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Validação resultado do PR
+        id: check_merge
+        run: |
+          if [[ "${{ github.event.pull_request.merged }}" != "true" ]]; then
+            echo "Pull request was not merged. Exiting."
+            exit 1
+          fi
+
       - name: Deploy
+        if: steps.check_merge.outcome == 'success'
         uses: jawills/sf-deploy@v1.0
         with:
           SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL_QA }}
           DRY_RUN: false
-          WAIT: 10]
+          WAIT: 10
 
   # close_job:
   #   if: github.event.pull_requested.merged == false
