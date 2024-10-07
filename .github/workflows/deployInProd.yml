@@ -1,0 +1,38 @@
+name: Deploy de mudanças (DEV para QA)
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - 'main'
+
+jobs:
+  merge_job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Validação resultado do PR
+        id: check_merge
+        run: | #essa run impede o deploy caso o workflow acabe ativando mesmo com o PR negado
+          if [[ "${{ github.event.pull_request.merged }}" != "true" ]]; then
+            echo "Pull request was not merged. Exiting."
+            exit 1
+          fi
+
+      - name: Deploy
+        if: steps.check_merge.outcome == 'success'
+        uses: jawills/sf-deploy@v1.0
+        with: # realiza o deploy
+          SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL_PROD }}
+          DRY_RUN: false
+          WAIT: 10
+
+  # close_job:
+  #   if: github.event.pull_requested.merged == false
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     name: Finalizando procedimento
+  #     run: |
+  #       echo "Ok!"
+  #   # Realizar procedimento caso falha....

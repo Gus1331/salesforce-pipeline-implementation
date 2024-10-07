@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, reopened]
     branches:
-      - 'homolog'
+      - 'main'
 
 jobs:
   validade:
@@ -14,7 +14,7 @@ jobs:
       - name: Validadação dos Testes
         uses: jawills/sf-deploy@v1.0
         with:
-          SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL_DEV }}
+          SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL_QA }}
           DRY_RUN: true
           WAIT: 10
     
