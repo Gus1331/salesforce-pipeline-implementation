@@ -61,4 +61,39 @@ public class ProcessControllerTest {
         System.assertEquals(150, resultado, 'A soma de 100 e 50 deve ser 150');
     }
     
+    @isTest
+    static void testarDeProcessComNumerosPositivos() {
+        Integer n1 = 10;
+        Integer n2 = 5;
+        Integer esperado = 5;
+        Integer resultado = ProcessService.deProcess(n1, n2);
+        System.assertEquals(esperado, resultado, 'Subtração de números positivos falhou');
+    }
+
+    @isTest
+    static void testarDeProcessComNumerosNegativos() {
+        Integer n1 = -10;
+        Integer n2 = -5;
+        Integer esperado = -5;
+        Integer resultado = ProcessService.deProcess(n1, n2);
+        System.assertEquals(esperado, resultado, 'Subtração de números negativos falhou');
+    }
+
+    @isTest
+    static void testarDeProcessComResultadoZero() {
+        Integer n1 = 5;
+        Integer n2 = 5;
+        Integer esperado = 0;
+        Integer resultado = ProcessService.deProcess(n1, n2);
+        System.assertEquals(esperado, resultado, 'Subtração resultando em zero falhou');
+    }
+
+    @isTest
+    static void testarDeProcessComNumeroPositivoENegativo() {
+        Integer n1 = 5;
+        Integer n2 = -3;
+        Integer esperado = 8;
+        Integer resultado = ProcessService.deProcess(n1, n2);
+        System.assertEquals(esperado, resultado, 'Subtração de um número positivo por um número negativo falhou');
+    }
 }
