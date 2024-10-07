@@ -61,12 +61,4 @@ public class ProcessControllerTest {
         System.assertEquals(150, resultado, 'A soma de 100 e 50 deve ser 150');
     }
     
-    /*
-    
-    @isTest
-    static void simulacaoErro(){
-        System.assertEquals(true, false, 'Caso de teste falho');
-    }
-    
-    /**/
 }
