@@ -2,7 +2,8 @@ name: Deploy de mudanças (DEV para QA)
 
 on:
   pull_request:
-    types: [closed]
+    types:
+      - closed
     branches:
       - 'homolog'
 
@@ -17,7 +18,7 @@ jobs:
         run: |
           if [[ "${{ github.event.pull_request.merged }}" != "true" ]]; then
             echo "Pull request was not merged. Exiting."
-            exit 1
+            exit 0
           fi
 
       - name: Deploy
