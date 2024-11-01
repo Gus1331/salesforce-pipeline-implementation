@@ -9,6 +9,7 @@ on:
 jobs:
   validade:
     runs-on: ubuntu-latest
+    environment: prod
     steps:
       - uses: actions/checkout@v3
       - name: Validadação dos Testes
@@ -17,5 +18,4 @@ jobs:
           SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL_DEV }}
           DRY_RUN: true
           WAIT: 10
-    
-    
+          TEST_LEVEL: RunLocalTests

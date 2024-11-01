@@ -17,5 +17,3 @@ jobs:
           SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL_QA }}
           DRY_RUN: true
           WAIT: 10
-    
-    
